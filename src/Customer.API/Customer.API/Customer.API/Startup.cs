@@ -10,14 +10,25 @@ using System.IO;
 [assembly: FunctionsStartup(typeof(Customer.API.Startup))]
 namespace Customer.API
 {
+    /// <summary>
+    /// DI and Configuration for API
+    /// </summary>
     internal class Startup : FunctionsStartup
     {
+        /// <summary>
+        /// Configure services
+        /// </summary>
+        /// <param name="builder">Default host builder</param>
         public override void Configure(IFunctionsHostBuilder builder)
         {
             var configuration = builder.GetContext().Configuration;
             AddServices(builder.Services, configuration);
         }
 
+        /// <summary>
+        /// Add app configuration
+        /// </summary>
+        /// <param name="builder">Default configuration builder</param>
         public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
         {
             FunctionsHostBuilderContext context = builder.GetContext();
