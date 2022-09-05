@@ -10,9 +10,22 @@ using System.Threading.Tasks;
 
 namespace Customer.Service
 {
+    /// <summary>
+    /// Abstraction of the CustomerService
+    /// </summary>
     public interface ICustomerService
     {
-        Task<BaseResponse<CustomerEntity>> GetCustomerByIdAsync(string id);
+        /// <summary>
+        /// Get a customer by their Id
+        /// </summary>
+        /// <param name="id">Id of the customer to get</param>
+        /// <returns>Customer response</returns>
+        Task<CustomerResponse> GetCustomerByIdAsync(string id);
+        /// <summary>
+        /// Create customer from http request
+        /// </summary>
+        /// <param name="request">Http request to create customer from</param>
+        /// <returns>Customer response</returns>
         Task<CustomerResponse> CreateCustomerFromRequestAsync(HttpRequest request);
     }
 }

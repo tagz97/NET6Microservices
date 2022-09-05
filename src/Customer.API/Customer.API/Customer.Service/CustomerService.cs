@@ -17,12 +17,22 @@ namespace Customer.Service
         private readonly ICustomerRepository _customerRepository;
         private readonly ILogger<CustomerService> _logger;
 
+        /// <summary>
+        /// Initialise customer service with injected services
+        /// </summary>
+        /// <param name="customerRepository">Injected repository</param>
+        /// <param name="logger">injected logger</param>
         public CustomerService(ICustomerRepository customerRepository, ILogger<CustomerService> logger)
         {
             _customerRepository = customerRepository;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Create customer from Http request
+        /// </summary>
+        /// <param name="request">Http request to create the customer from</param>
+        /// <returns>Customer response</returns>
         public async Task<CustomerResponse> CreateCustomerFromRequestAsync(HttpRequest request)
         {
             CustomerResponse response = new();
@@ -36,14 +46,30 @@ namespace Customer.Service
                 return response;
             }
             CustomerEntity customer = new(req.Value);
+
+            var isUniqueEmail = await _customerRepository.CheckCustomerEmailUniqueAsync(customer.Email);
+
+            if (!isUniqueEmail)
+            {
+                response.ResponseCode = ResponseCode.Create_Fail;
+                _logger.LogError("Email already exists within the database.");
+
+                return response;
+            }
+
             response.Data = await _customerRepository.AddCustomerAsync(customer);
 
             return response;
         }
 
-        public async Task<BaseResponse<CustomerEntity>> GetCustomerByIdAsync(string id)
+        /// <summary>
+        /// Get customer by their Id
+        /// </summary>
+        /// <param name="id">Id of the customer to get</param>
+        /// <returns>Customer response</returns>
+        public async Task<CustomerResponse> GetCustomerByIdAsync(string id)
         {
-            BaseResponse<CustomerEntity> response = new();
+            CustomerResponse response = new();
             try
             {
                 response.Data = await _customerRepository.GetCustomerByIdAsync(id);

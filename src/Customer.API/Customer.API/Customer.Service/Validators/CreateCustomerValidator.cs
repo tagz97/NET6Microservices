@@ -10,8 +10,14 @@ using Validation;
 
 namespace Customer.Service.Validators
 {
+    /// <summary>
+    /// Validation for Create Customer using Fluent Validation
+    /// </summary>
     public sealed class CreateCustomerValidator : Validator<CreateCustomerRequest>
     {
+        /// <summary>
+        /// Setting the rules for the validation to take place
+        /// </summary>
         public CreateCustomerValidator()
         {
             RuleFor(customer => customer.Email).Cascade(CascadeMode.Stop)
@@ -20,6 +26,11 @@ namespace Customer.Service.Validators
                 .Must(IsValidEmail).WithMessage("Email is not in correct format");
         }
 
+        /// <summary>
+        /// Check if the email is valid format
+        /// </summary>
+        /// <param name="email">Email to check</param>
+        /// <returns>Whether email is valid or not</returns>
         private bool IsValidEmail(string email)
         {
             try

@@ -8,7 +8,7 @@ namespace Customer.Client.Extensions
     public static class CustomerClientExtensions
     {
         /// <summary>
-        /// Add customer client to DI to allow consuming
+        /// Add customer client to DI to allow consuming. Requires config of "ServiceBaseUrl" to exist.
         /// </summary>
         /// <param name="services">IServiceCollection to add the customer client to</param>
         /// <param name="configuration">Configuration to allow client to be initialised</param>

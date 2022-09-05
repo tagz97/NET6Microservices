@@ -29,6 +29,12 @@ namespace Customer.API
                 .Build();
         }
 
+        /// <summary>
+        /// Add relevant services for DI
+        /// </summary>
+        /// <param name="services">Services to add the DI to</param>
+        /// <param name="config">Configuration for retrieving environment variables</param>
+        /// <exception cref="ArgumentException">Missing value required for API to start</exception>
         private static void AddServices(IServiceCollection services, IConfiguration config)
         {
             var serviceEndpoint = new Uri(GetConfigValue(config, "Database:ServiceEndpoint"));
@@ -48,6 +54,13 @@ namespace Customer.API
             services.AddCustomerService();
         }
 
+        /// <summary>
+        /// Get specific config value for provided string
+        /// </summary>
+        /// <param name="config">The config to get the value from</param>
+        /// <param name="input">The name of the configuration input to get the value of</param>
+        /// <returns>string for config value</returns>
+        /// <exception cref="ArgumentException">Config not found therefore API cannot start</exception>
         private static string GetConfigValue(IConfiguration config, string input)
         {
             return config.GetValue<string>(input) ?? throw new ArgumentException($"Config with name {input} not found");
