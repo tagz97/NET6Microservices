@@ -1,8 +1,14 @@
 ﻿using Customer.Domain.Models;
+using Customer.Domain.Models.Requests;
+using Customer.Domain.Models.Responses;
 using Customer.Repository;
+using Customer.Service.Validators;
 using Framework.Enums;
 using Framework.ResponseModel;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Validation;
 
 namespace Customer.Service
 {
@@ -17,17 +23,30 @@ namespace Customer.Service
             _logger = logger;
         }
 
+        public async Task<CustomerResponse> CreateCustomerFromRequestAsync(HttpRequest request)
+        {
+            CustomerResponse response = new();
+            var req = await request.GetBody<CreateCustomerRequest, CreateCustomerValidator>();
+
+            if (!req.IsValid)
+            {
+                response.ResponseCode = ResponseCode.Create_Fail;
+                _logger.LogError("Invalid request.", string.Join(",", req.Errors?.Select(e => e.ErrorMessage)));
+
+                return response;
+            }
+            CustomerEntity customer = new(req.Value);
+            response.Data = await _customerRepository.AddCustomerAsync(customer);
+
+            return response;
+        }
+
         public async Task<BaseResponse<CustomerEntity>> GetCustomerByIdAsync(string id)
         {
             BaseResponse<CustomerEntity> response = new();
             try
             {
-                response.Data = new CustomerEntity()
-                {
-                    Email = "email",
-                    Id = id
-                };
-                // response.Data = await _customerRepository.GetCustomerByIdAsync(id);
+                response.Data = await _customerRepository.GetCustomerByIdAsync(id);
                 response.ResponseCode = ResponseCode.No_Error;
             }
             catch (Exception ex)

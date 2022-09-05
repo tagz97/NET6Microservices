@@ -1,6 +1,7 @@
 ﻿using CosmosDbClient;
 using Customer.Domain.Models;
 using Microsoft.Azure.Cosmos;
+using System.Net;
 
 namespace Customer.Repository
 {
@@ -19,9 +20,16 @@ namespace Customer.Repository
 
         public override PartitionKey? ResolvePartitionKey(string entityId) => new PartitionKey(entityId);
 
-        public Task<CustomerEntity> AddCustomerAsync(CustomerEntity customerEntity)
+        public async Task<CustomerEntity> AddCustomerAsync(CustomerEntity customerEntity)
         {
-            throw new NotImplementedException();
+            customerEntity.Id = await GenerateUniqueIdentifier();
+            ItemResponse<CustomerEntity> response = await _client.CreateDocumentAsync(customerEntity, ResolvePartitionKey(customerEntity.Id));
+            if (response.StatusCode == HttpStatusCode.Conflict)
+            {
+                throw new EntityAlreadyExistsException();
+            }
+
+            return response.Resource;
         }
 
         public async Task<bool> CheckCustomerEmailUniqueAsync(string email)
@@ -46,5 +54,17 @@ namespace Customer.Repository
         {
             return await _client.ReadAllItemsAsIQueryable<CustomerEntity>().Where(x => x.Email.ToLower().Contains(email.ToLower()) || x.Email.ToLower() == email.ToLower()).CosmosFirstOrDefaultAsync();
         }
+
+        private async Task<string> GenerateUniqueIdentifier()
+        {
+            var uniqueIdentifier = Guid.NewGuid().ToString();
+            var resp = await GetCustomerByIdAsync(uniqueIdentifier);
+            if (resp != null)
+            {
+                await GenerateUniqueIdentifier();
+            }
+
+            return uniqueIdentifier;
+        } 
     }
 }
