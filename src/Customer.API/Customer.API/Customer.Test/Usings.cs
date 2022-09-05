@@ -6,3 +6,4 @@ global using Customer.Domain.Models;
 global using Customer.Domain.Models.Responses;
 global using Customer.Domain.Models.Requests;
 global using Customer.Service.Validators;
+global using CosmosDbClient;

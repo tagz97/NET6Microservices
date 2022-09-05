@@ -19,5 +19,20 @@ namespace Customer.Test
             // Assert
             Assert.True(result != null);
         }
+
+        [Fact]
+        public async void CustomerService_GetCustomerById_ReturnsNull()
+        {
+            // Arrange
+            CustomerResponse response = new() { Data = null, ResponseCode = Framework.Enums.ResponseCode.No_Error };
+            _customerService.Setup(x => x.GetCustomerByIdAsync(It.IsAny<string>())).ReturnsAsync(response);
+            var customerService = _customerService.Object;
+
+            // Act
+            var result = await customerService.GetCustomerByIdAsync(It.IsAny<string>());
+
+            // Assert
+            Assert.True(result.Data == null);
+        }
     }
 }
