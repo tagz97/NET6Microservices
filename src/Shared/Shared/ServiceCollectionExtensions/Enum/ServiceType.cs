@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ServiceCollectionExtensions.Enum
 {
+    /// <summary>
+    /// Enum defining how a service is added to DI
+    /// </summary>
     public enum ServiceType
     {
         SINGLETON = 0,

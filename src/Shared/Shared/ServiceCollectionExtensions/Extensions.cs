@@ -3,8 +3,20 @@ using ServiceCollectionExtensions.Enum;
 
 namespace ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Service collection extensions for a central location for adding services
+    /// </summary>
     public static class Extensions
     {
+        /// <summary>
+        /// Inject a service in any type of pattern
+        /// </summary>
+        /// <typeparam name="I">Interface</typeparam>
+        /// <typeparam name="C">Class/Service/Implementation</typeparam>
+        /// <param name="services">Services to add the injections to</param>
+        /// <param name="serviceType" cref="ServiceType">Enum for injecting a service</param>
+        /// <returns>Services with injected service added</returns>
+        /// <exception cref="ArgumentException">Service to add cannot be injected</exception>
         public static IServiceCollection AddService<I, C>(this IServiceCollection services, ServiceType serviceType)
             where I : class
             where C : class
