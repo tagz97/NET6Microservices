@@ -21,7 +21,7 @@ namespace Customer.Client
         /// <summary>
         /// Returns the customer document
         /// </summary>
-        /// <typeparam name="T">Class to be replaced</typeparam>
+        /// <typeparam name="T">Class for response structure</typeparam>
         /// <param name="id">Id of the Customer to retrieve</param>
         /// <returns>Customer document</returns>
         public async Task<T> GetCustomerById<T>(string id)

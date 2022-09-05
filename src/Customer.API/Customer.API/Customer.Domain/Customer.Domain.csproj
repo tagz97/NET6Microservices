@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Models\Responses\" />
     <Folder Include="Models\Requests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CosmosDbClient" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

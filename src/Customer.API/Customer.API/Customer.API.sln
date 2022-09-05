@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.API", "Customer.API\Customer.API.csproj", "{2CFE6528-62CA-4147-A17F-221CD0152414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Customer.API", "Customer.API\Customer.API.csproj", "{2CFE6528-62CA-4147-A17F-221CD0152414}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Test", "Customer.Test\Customer.Test.csproj", "{FB053EED-6100-4974-81D5-0DAA16F64F9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Customer.Test", "Customer.Test\Customer.Test.csproj", "{FB053EED-6100-4974-81D5-0DAA16F64F9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Service", "Customer.Service\Customer.Service.csproj", "{189EEF50-598D-456A-A9AA-1A1CEAB2C000}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Customer.Service", "Customer.Service\Customer.Service.csproj", "{189EEF50-598D-456A-A9AA-1A1CEAB2C000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Domain", "Customer.Domain\Customer.Domain.csproj", "{21B53F84-F2EA-4E6C-9C61-08A4DBA745C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Customer.Domain", "Customer.Domain\Customer.Domain.csproj", "{21B53F84-F2EA-4E6C-9C61-08A4DBA745C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Infrastructure", "Customer.Infrastructure\Customer.Infrastructure.csproj", "{98888514-7BE8-4977-86BA-022B1437F929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Customer.Repository", "Customer.Infrastructure\Customer.Repository.csproj", "{98888514-7BE8-4977-86BA-022B1437F929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Client", "Customer.Client\Customer.Client.csproj", "{D58164A2-A271-44EA-82A2-FDD3005F0BC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Customer.Client", "Customer.Client\Customer.Client.csproj", "{D58164A2-A271-44EA-82A2-FDD3005F0BC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,15 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Framework" Version="1.0.0" />
+    <PackageReference Include="CosmosDbClient" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="ServiceCollectionExtensions" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Customer.Domain\Customer.Domain.csproj" />
-    <ProjectReference Include="..\Customer.Infrastructure\Customer.Repository.csproj" />
   </ItemGroup>
 
 </Project>

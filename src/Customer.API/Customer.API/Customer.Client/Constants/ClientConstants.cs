@@ -8,6 +8,10 @@ namespace Customer.Client.Constants
 {
     internal class ClientConstants
     {
-        public const string GetCustomerByIdentifier = "customer";
+        private const string CustomerBaseUrl = "customer";
+        public const string GetCustomerByIdentifier = CustomerBaseUrl;
+        public const string CreateCustomer = CustomerBaseUrl;
+        public const string UpdateCustomer = CustomerBaseUrl;
+        public const string DeleteCustomer = CustomerBaseUrl;
     }
 }
