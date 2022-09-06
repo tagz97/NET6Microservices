@@ -96,6 +96,17 @@ namespace Customer.Repository
         }
 
         /// <summary>
+        /// Delete customer using existing customer record
+        /// </summary>
+        /// <param name="customer">Customer to delete</param>
+        /// <returns>Whether deletion success or not</returns>
+        public async Task<bool> DeleteCustomerAsync(CustomerEntity customer)
+        {
+            ItemResponse<CustomerEntity> response = await _client.DeleteDocumentAsync<CustomerEntity>(customer.Id, (PartitionKey)ResolvePartitionKey(customer.Id));
+            return response == null;
+        }
+
+        /// <summary>
         /// Generate a new GUID that is unique in the system so that customer documents will never conflict on create
         /// </summary>
         /// <returns>Unique Id</returns>

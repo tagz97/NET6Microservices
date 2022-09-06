@@ -52,12 +52,37 @@ namespace Customer.Service
             if (!isUniqueEmail)
             {
                 response.ResponseCode = ResponseCode.Create_Fail;
-                _logger.LogError("Email already exists within the database.");
+                _logger.LogError($"Email {customer.Email} already exists within the database.");
 
                 return response;
             }
 
             response.Data = await _customerRepository.AddCustomerAsync(customer);
+
+            return response;
+        }
+
+        public async Task<CustomerResponse> DeleteCustomerAsync(string id)
+        {
+            CustomerResponse response = new();
+            try
+            {
+                CustomerEntity customerToDelete = await _customerRepository.GetCustomerByIdAsync(id);
+                if (customerToDelete == null || customerToDelete == default)
+                {
+                    response.ResponseCode = ResponseCode.Delete_Fail;
+                }
+                else
+                {
+                    var deletionResult = await _customerRepository.DeleteCustomerAsync(customerToDelete);
+                    response.ResponseCode = deletionResult ? ResponseCode.No_Error : ResponseCode.Delete_Fail;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(DeleteCustomerAsync)} failed to delete customer with id {id} with error:\n{ex.Message}");
+                response.ResponseCode = ResponseCode.Delete_Fail;
+            }
 
             return response;
         }

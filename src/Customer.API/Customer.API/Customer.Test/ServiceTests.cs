@@ -2,7 +2,7 @@ namespace Customer.Test
 {
     public class ServiceTests
     {
-        private Mock<ICustomerService> _customerService = new();
+        // TODO: Add Delete customer unit tests
         private Mock<ICustomerRepository> _customerRepository = new();
         private Mock<ILogger<CustomerService>> _logger = new();
 

@@ -27,5 +27,11 @@ namespace Customer.Service
         /// <param name="request">Http request to create customer from</param>
         /// <returns>Customer response</returns>
         Task<CustomerResponse> CreateCustomerFromRequestAsync(HttpRequest request);
+        /// <summary>
+        /// Delete the customer using their Id
+        /// </summary>
+        /// <param name="id">Id of the customer to delete</param>
+        /// <returns>Customer response</returns>
+        Task<CustomerResponse> DeleteCustomerAsync(string id);
     }
 }

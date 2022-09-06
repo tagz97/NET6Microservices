@@ -52,6 +52,26 @@ namespace Customer.API
                 StatusCode = (int?)(resp.ResponseCode == ResponseCode.No_Error ? HttpStatusCode.Created : HttpStatusCode.BadRequest)
             };
         }
+
+        [FunctionName("DeleteCustomer")]
+        [OpenApiOperation(operationId: "DeleteCustomer", tags: new[] { "Customer" })]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The **Id** parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomerResponse), Description = "The OK response")]
+        public async Task<IActionResult> DeleteCustomer(
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req)
+        {
+            _logger.LogInformation($"{nameof(CreateCustomer)}: Recieved a request");
+
+            string id = req.Headers["id"];
+
+            var resp = await _customerService.DeleteCustomerAsync(id);
+
+            return new ObjectResult(resp)
+            {
+                StatusCode = (int?)(resp.ResponseCode == ResponseCode.No_Error ? HttpStatusCode.Created : HttpStatusCode.BadRequest)
+            };
+        }
     }
 }
 

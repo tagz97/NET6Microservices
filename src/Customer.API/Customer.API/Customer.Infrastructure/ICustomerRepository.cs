@@ -36,5 +36,11 @@ namespace Customer.Repository
         /// </summary>
         /// <returns>A list of all customers</returns>
         Task<IEnumerable<CustomerEntity>> GetAllCustomersAsync();
+        /// <summary>
+        /// Delete customer using existing customer record
+        /// </summary>
+        /// <param name="customer">Customer to delete</param>
+        /// <returns>Whether deletion success or not</returns>
+        Task<bool> DeleteCustomerAsync(CustomerEntity customer);
     }
 }

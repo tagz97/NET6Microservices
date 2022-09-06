@@ -2,6 +2,7 @@
 {
     public class RepositoryTests
     {
+        // TODO: Add Delete customer unit tests
         private Mock<ICustomerRepository> _customerRepository = new();
 
         [Fact]
