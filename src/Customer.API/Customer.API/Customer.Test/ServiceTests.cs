@@ -7,7 +7,12 @@ namespace Customer.Test
         private CustomerEntity _customer = new()
         {
             Email = "contoso@aol.com",
-            Id = Guid.NewGuid().ToString()
+            Id = Guid.NewGuid().ToString(),
+            PostCode = "GU22",
+            FirstName = "Contoso",
+            LastName = "Microsoft",
+            MobileNumber = "07444444444",
+            State = CustomerState.ACTIVE
         };
 
         private CustomerService CreateServiceFromMocks() => new(_customerRepository.Object, _logger.Object);
@@ -84,6 +89,12 @@ namespace Customer.Test
 
             // Assert
             Assert.True(result != null);
+            Assert.Equal(result.Data.FirstName, _customer.FirstName);
+            Assert.Equal(result.Data.LastName, _customer.LastName);
+            Assert.Equal(result.Data.MobileNumber, _customer.MobileNumber);
+            Assert.Equal(result.Data.PostCode, _customer.PostCode);
+            Assert.Equal(result.Data.State, _customer.State);
+            Assert.Equal(result.Data.Id, _customer.Id);
         }
 
         [Fact]
@@ -103,18 +114,15 @@ namespace Customer.Test
             Assert.True(result.Data == null);
         }
 
-        [Fact]
-        public async void CustomerService_CreateCustomerFromRequestAsync_ReturnsCustomer()
+        [Theory]
+        [MemberData(nameof(ListOfCreateCustomerRequest))]
+        public async void CustomerService_CreateCustomerFromRequestAsync_ReturnsCustomer(CreateCustomerRequest createCustomerRequest)
         {
             // Arrange
-            CreateCustomerRequest createCustomerRequest = new()
-            {
-                Email = _customer.Email
-            };
+            _customer = new(createCustomerRequest);
 
             var res = JsonSerializer.Serialize(createCustomerRequest);
             var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(res));
-
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Body = memoryStream;
 
@@ -129,5 +137,14 @@ namespace Customer.Test
             // Assert
             Assert.NotNull(result);
         }
+
+        public static IEnumerable<object[]> ListOfCreateCustomerRequest =>
+                new List<object[]>
+                {
+                    new object[] { new CreateCustomerRequest() { Email = "test1@aol.co.uk" } },
+                    new object[] { new CreateCustomerRequest() { Email = "test2@aol.com" } },
+                    new object[] { new CreateCustomerRequest() { Email = "test3@aol.co.za" } },
+                    new object[] { new CreateCustomerRequest() { Email = "test4@gov.uk" } },
+                };
     }
 }

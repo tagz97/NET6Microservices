@@ -3,11 +3,7 @@
     public class ValidatorTests
     {
         [Theory]
-        [InlineData("contoso@gmail.com")]
-        [InlineData("contoso@gmail.co.uk")]
-        [InlineData("contoso@gov.co.uk")]
-        [InlineData("contoso@aol.com")]
-        [InlineData("contoso@aol.co.za")]
+        [MemberData(nameof(ListOfValidEmails))]
         public void CreateCustomerRequest_ValidRequestEmail_MustPass(string email)
         {
             // Arrange
@@ -22,13 +18,7 @@
         }
 
         [Theory]
-        [InlineData("contoso@@")]
-        [InlineData("contoso@gmail@")]
-        [InlineData("contoso@")]
-        [InlineData("contoso")]
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData("c")]
+        [MemberData(nameof(ListOfInvalidEmails))]
         public void CreateCustomerRequest_InvalidRequestEmail_MustFail(string email)
         {
             // Arrange
@@ -41,5 +31,26 @@
             // Assert
             Assert.False(validationResult.IsValid);
         }
+
+        public static IEnumerable<object[]> ListOfInvalidEmails =>
+                new List<object[]>
+                {
+                    new object[] { "contoso@@" },
+                    new object[] { "contoso@gmail@" } ,
+                    new object[] { "contoso@" },
+                    new object[] { "contoso" },
+                    new object[] { "" },
+                    new object[] { " " },
+                    new object[] { "c" },
+                };
+
+        public static IEnumerable<object[]> ListOfValidEmails =>
+                new List<object[]>
+                {
+                    new object[] { "test1@aol.co.uk" },
+                    new object[] { "test2@outlook.com" } ,
+                    new object[] { "test3@gmail.co.za" },
+                    new object[] { "test4@gov.uk" },
+                };
     }
 }

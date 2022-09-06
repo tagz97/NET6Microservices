@@ -1,4 +1,5 @@
 ﻿using CosmosDbClient;
+using Customer.Domain.Models.Enums;
 using Customer.Domain.Models.Requests;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Customer.Domain.Models
     public class CustomerEntity : Entity
     {
         /// <summary>
-        /// Default
+        /// Default constructor
         /// </summary>
         public CustomerEntity()
         {
@@ -28,11 +29,41 @@ namespace Customer.Domain.Models
         public CustomerEntity(CreateCustomerRequest request)
         {
             Email = request.Email;
+            FirstName = request.FirstName;
+            LastName = request.LastName;
+            MobileNumber = request.MobileNumber;
+            PostCode = request.PostCode;
+            State = CustomerState.ACTIVE;
         }
 
         /// <summary>
         /// Email address of the customer
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// First name of the customer
+        /// </summary>
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Last name / Surname of the customer
+        /// </summary>
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Mobile number of the customer
+        /// </summary>
+        public string MobileNumber { get; set; }
+
+        /// <summary>
+        /// PostCode for the customer
+        /// </summary>
+        public string PostCode { get; set; }
+
+        /// <summary>
+        /// State of the customer
+        /// </summary>
+        public CustomerState State { get; set; }
     }
 }
