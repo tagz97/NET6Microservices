@@ -3,7 +3,6 @@
     public class RepositoryTests
     {
         private Mock<ICustomerRepository> _customerRepository = new();
-        private Mock<ICosmosDbClient> _dbClient = new();
 
         [Fact]
         public async void CustomerRepository_GetCustomerById_ReturnsCustomer()

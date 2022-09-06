@@ -7,3 +7,6 @@ global using Customer.Domain.Models.Responses;
 global using Customer.Domain.Models.Requests;
 global using Customer.Service.Validators;
 global using CosmosDbClient;
+global using Microsoft.Extensions.DependencyInjection;
+global using Customer.Repository.ServiceExtensions;
+global using Customer.Service.Extensions;

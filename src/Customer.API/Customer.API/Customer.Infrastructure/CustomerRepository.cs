@@ -88,11 +88,11 @@ namespace Customer.Repository
         /// <summary>
         /// Get customers by email address
         /// </summary>
-        /// <param name="email">Email address to search customers for</param>
+        /// <param name="email">Email address to search customer for</param>
         /// <returns>Customer</returns>
         public async Task<CustomerEntity> GetCustomerByEmailAsync(string email)
         {
-            return await _client.ReadAllItemsAsIQueryable<CustomerEntity>().Where(x => x.Email.ToLower().Contains(email.ToLower()) || x.Email.ToLower() == email.ToLower()).CosmosFirstOrDefaultAsync();
+            return await _client.ReadAllItemsAsIQueryable<CustomerEntity>().Where(x => x.Email.ToLower() == email.ToLower()).CosmosFirstOrDefaultAsync();
         }
 
         /// <summary>
