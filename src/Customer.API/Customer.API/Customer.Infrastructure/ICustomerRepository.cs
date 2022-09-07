@@ -42,5 +42,11 @@ namespace Customer.Repository
         /// <param name="customer">Customer to delete</param>
         /// <returns>Whether deletion success or not</returns>
         Task<bool> DeleteCustomerAsync(CustomerEntity customer);
+        /// <summary>
+        /// Update a customer document in the database
+        /// </summary>
+        /// <param name="customerEntity">Customer entity to update</param>
+        /// <returns>Updated customer entity</returns>
+        Task<CustomerEntity> UpdateCustomerAsync(CustomerEntity customerEntity);
     }
 }

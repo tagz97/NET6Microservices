@@ -37,6 +37,19 @@ namespace Customer.Domain.Models
         }
 
         /// <summary>
+        /// Overloaded CTOR to allow updating customer from request
+        /// </summary>
+        /// <param name="request">UpdateCustomerRequest object</param>
+        public CustomerEntity(UpdateCustomerRequest request)
+        {
+            Email = request.Email ?? Email;
+            FirstName = request.FirstName ?? FirstName;
+            LastName = request.LastName ?? LastName;
+            MobileNumber = request.MobileNumber ?? MobileNumber;
+            PostCode = request.PostCode ?? PostCode;
+        }
+
+        /// <summary>
         /// Email address of the customer
         /// </summary>
         public string Email { get; set; }

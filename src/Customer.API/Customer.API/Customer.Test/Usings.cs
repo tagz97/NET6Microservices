@@ -6,6 +6,7 @@ global using Customer.Repository.ServiceExtensions;
 global using Customer.Service;
 global using Customer.Service.Extensions;
 global using Customer.Service.Validators;
+global using Customer.Service.Validators.CustomerEntityPropertyValidators;
 global using Framework.Enums;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.DependencyInjection;

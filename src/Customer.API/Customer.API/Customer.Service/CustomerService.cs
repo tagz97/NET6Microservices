@@ -62,6 +62,50 @@ namespace Customer.Service
             return response;
         }
 
+        public async Task<CustomerResponse> UpdateCustomerFromRequestAsync(HttpRequest request)
+        {
+            CustomerResponse response = new();
+            try
+            {
+                var req = await request.GetBody<UpdateCustomerRequest, UpdateCustomerValidator>();
+                if (!req.IsValid)
+                {
+                    response.ResponseCode = ResponseCode.Update_Fail;
+                    _logger.LogError("Invalid request.", string.Join(",", req.Errors?.Select(e => e.ErrorMessage)));
+
+                    return response;
+                }
+
+                CustomerEntity customer = await GetCustomerByCustomerIdAsync(req.Value.Id);
+                if (customer == default || customer == null)
+                {
+                    response.ResponseCode = ResponseCode.Update_Fail;
+                    _logger.LogError($"Customer with id {req.Value.Id} not found within the database.");
+
+                    return response;
+                }
+
+                customer = new(req.Value);
+                var isUniqueEmail = await _customerRepository.CheckCustomerEmailUniqueAsync(customer.Email);
+                if (!isUniqueEmail)
+                {
+                    response.ResponseCode = ResponseCode.Update_Fail;
+                    _logger.LogError($"Email {customer.Email} already exists within the database.");
+
+                    return response;
+                }
+
+                response.Data = await _customerRepository.UpdateCustomerAsync(customer);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(UpdateCustomerFromRequestAsync)} failed to update customer with error:\n{ex.Message}");
+                response.ResponseCode = ResponseCode.Update_Fail;
+            }
+            
+            return response;
+        }
+
         public async Task<CustomerResponse> DeleteCustomerAsync(string id)
         {
             CustomerResponse response = new();
@@ -97,7 +141,7 @@ namespace Customer.Service
             CustomerResponse response = new();
             try
             {
-                response.Data = await _customerRepository.GetCustomerByIdAsync(id);
+                response.Data = await GetCustomerByCustomerIdAsync(id);
                 response.ResponseCode = ResponseCode.No_Error;
             }
             catch (Exception ex)
@@ -107,6 +151,21 @@ namespace Customer.Service
             }
 
             return response;
+        }
+
+        private async Task<CustomerEntity> GetCustomerByCustomerIdAsync(string id)
+        {
+            CustomerEntity customer;
+            try
+            {
+                customer = await _customerRepository.GetCustomerByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return customer;
         }
     }
 }

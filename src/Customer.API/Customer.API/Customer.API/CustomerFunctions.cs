@@ -22,7 +22,7 @@ namespace Customer.API
         [OpenApiParameter(name: "id", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The **Id** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomerResponse), Description = "The OK response")]
         public async Task<IActionResult> GetCustomerById(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "customer")] HttpRequest req)
         {
             _logger.LogInformation($"{nameof(GetCustomerById)}: Recieved a request");
 
@@ -30,10 +30,7 @@ namespace Customer.API
 
             var resp = await _customerService.GetCustomerByIdAsync(id);
 
-            return new ObjectResult(resp)
-            {
-                StatusCode = (int?)(resp.ResponseCode == ResponseCode.No_Error ? HttpStatusCode.Created : HttpStatusCode.BadRequest)
-            };
+            return BuildObjectResult(resp);
         }
 
         [FunctionName("CreateCustomer")]
@@ -42,15 +39,12 @@ namespace Customer.API
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateCustomerRequest))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomerResponse), Description = "The OK response")]
         public async Task<IActionResult> CreateCustomer(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "customer")] HttpRequest req)
         {
             _logger.LogInformation($"{nameof(CreateCustomer)}: Recieved a request");
             var resp = await _customerService.CreateCustomerFromRequestAsync(req);
 
-            return new ObjectResult(resp)
-            {
-                StatusCode = (int?)(resp.ResponseCode == ResponseCode.No_Error ? HttpStatusCode.Created : HttpStatusCode.BadRequest)
-            };
+            return BuildObjectResult(resp);
         }
 
         [FunctionName("DeleteCustomer")]
@@ -59,7 +53,7 @@ namespace Customer.API
         [OpenApiParameter(name: "id", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The **Id** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomerResponse), Description = "The OK response")]
         public async Task<IActionResult> DeleteCustomer(
-            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "customer")] HttpRequest req)
         {
             _logger.LogInformation($"{nameof(CreateCustomer)}: Recieved a request");
 
@@ -67,6 +61,30 @@ namespace Customer.API
 
             var resp = await _customerService.DeleteCustomerAsync(id);
 
+            return BuildObjectResult(resp);
+        }
+
+        [FunctionName("UpdateCustomer")]
+        [OpenApiOperation(operationId: "UpdateCustomer", tags: new[] { "Customer" })]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(UpdateCustomerRequest))]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomerResponse), Description = "The OK response")]
+        public async Task<IActionResult> UpdateCustomer(
+            [HttpTrigger(AuthorizationLevel.Function, "patch", Route = "customer")] HttpRequest req)
+        {
+            _logger.LogInformation($"{nameof(UpdateCustomer)}: Recieved a request");
+            var resp = await _customerService.UpdateCustomerFromRequestAsync(req);
+
+            return BuildObjectResult(resp);
+        }
+
+        /// <summary>
+        /// Build a new ObjectResult with value from CustomerResponse and define status code to return
+        /// </summary>
+        /// <param name="resp">CustomerResponse to define status code from and define ObjectResult value</param>
+        /// <returns>New ObjectResult with value and relevant status code</returns>
+        private static IActionResult BuildObjectResult(CustomerResponse resp)
+        {
             return new ObjectResult(resp)
             {
                 StatusCode = (int?)(resp.ResponseCode == ResponseCode.No_Error ? HttpStatusCode.Created : HttpStatusCode.BadRequest)

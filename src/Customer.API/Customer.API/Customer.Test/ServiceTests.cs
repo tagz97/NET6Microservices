@@ -15,6 +15,10 @@ namespace Customer.Test
             State = CustomerState.ACTIVE
         };
 
+        /// <summary>
+        /// Create customer service from Mocked interfaces/services
+        /// </summary>
+        /// <returns>New instance of Customer Service</returns>
         private CustomerService CreateServiceFromMocks() => new(_customerRepository.Object, _logger.Object);
 
         [Fact]
@@ -120,11 +124,7 @@ namespace Customer.Test
         {
             // Arrange
             _customer = new(createCustomerRequest);
-
-            var res = JsonSerializer.Serialize(createCustomerRequest);
-            var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(res));
-            var httpContext = new DefaultHttpContext();
-            httpContext.Request.Body = memoryStream;
+            DefaultHttpContext httpContext = SetupDefaultHttpContext(createCustomerRequest);
 
             _customerRepository.Setup(x => x.AddCustomerAsync(_customer)).ReturnsAsync(_customer);
             _customerRepository.Setup(x => x.CheckCustomerEmailUniqueAsync(_customer.Email)).ReturnsAsync(true);
@@ -138,6 +138,46 @@ namespace Customer.Test
             Assert.NotNull(result);
         }
 
+        [Theory]
+        [MemberData(nameof(ListOfUpdateCustomerRequest))]
+        public async void CustomerService_UpdateCustomerFromRequestAsync_ReturnsCustomer(UpdateCustomerRequest updateCustomerRequest)
+        {
+            // Arrange
+            _customer = new(updateCustomerRequest);
+            DefaultHttpContext httpContext = SetupDefaultHttpContext(updateCustomerRequest);
+
+            _customerRepository.Setup(x => x.GetCustomerByIdAsync(It.IsAny<string>())).ReturnsAsync(_customer);
+            _customerRepository.Setup(x => x.CheckCustomerEmailUniqueAsync(_customer.Email)).ReturnsAsync(true);
+            _customerRepository.Setup(x => x.UpdateCustomerAsync(_customer)).ReturnsAsync(_customer);
+
+            var service = CreateServiceFromMocks();
+
+            // Act
+            var result = await service.UpdateCustomerFromRequestAsync(httpContext.Request);
+
+            // Assert
+            Assert.NotNull(result);
+        }
+
+        /// <summary>
+        /// Create DefaultHttpContext with request body from input
+        /// </summary>
+        /// <typeparam name="T">Type of input</typeparam>
+        /// <param name="request">Value of input</param>
+        /// <returns>DefaultHttpContext with a request body from input</returns>
+        private static DefaultHttpContext SetupDefaultHttpContext<T>(T request)
+        {
+            var serializedRequest = JsonSerializer.Serialize(request);
+            var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(serializedRequest));
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Body = memoryStream;
+
+            return httpContext;
+        }
+
+        /// <summary>
+        /// List of CreateCustomerRequest objects to allow varied test cases
+        /// </summary>
         public static IEnumerable<object[]> ListOfCreateCustomerRequest =>
                 new List<object[]>
                 {
@@ -145,6 +185,18 @@ namespace Customer.Test
                     new object[] { new CreateCustomerRequest() { Email = "test2@aol.com" } },
                     new object[] { new CreateCustomerRequest() { Email = "test3@aol.co.za" } },
                     new object[] { new CreateCustomerRequest() { Email = "test4@gov.uk" } },
+                };
+
+        /// <summary>
+        /// List of UpdateCustomerRequest objects to allow varied test cases
+        /// </summary>
+        public static IEnumerable<object[]> ListOfUpdateCustomerRequest =>
+                new List<object[]>
+                {
+                    new object[] { new UpdateCustomerRequest() { Email = "test1@aol.co.uk" } },
+                    new object[] { new UpdateCustomerRequest() { Email = "test2@aol.com" } },
+                    new object[] { new UpdateCustomerRequest() { Email = "test3@aol.co.za" } },
+                    new object[] { new UpdateCustomerRequest() { Email = "test4@gov.uk" } },
                 };
     }
 }

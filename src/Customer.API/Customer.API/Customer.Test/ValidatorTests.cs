@@ -32,6 +32,37 @@
             Assert.False(validationResult.IsValid);
         }
 
+        [Theory]
+        [MemberData(nameof(ListOfInvalidEmails))]
+        public void CustomerEmailValidator_InvalidEmail_MustFail(string email)
+        {
+            // Arrange
+            CustomerEmailValidator validator = new();
+
+            // Act
+            var validationResult = validator.Validate(email);
+
+            // Assert
+            Assert.False(validationResult.IsValid);
+        }
+
+        [Theory]
+        [MemberData(nameof(ListOfValidEmails))]
+        public void CustomerEmailValidator_ValidEmail_MustPass(string email)
+        {
+            // Arrange
+            CustomerEmailValidator validator = new();
+
+            // Act
+            var validationResult = validator.Validate(email);
+
+            // Assert
+            Assert.True(validationResult.IsValid);
+        }
+
+        /// <summary>
+        /// A list of emails with invalid format
+        /// </summary>
         public static IEnumerable<object[]> ListOfInvalidEmails =>
                 new List<object[]>
                 {
@@ -44,6 +75,9 @@
                     new object[] { "c" },
                 };
 
+        /// <summary>
+        /// A list of emails with valid format
+        /// </summary>
         public static IEnumerable<object[]> ListOfValidEmails =>
                 new List<object[]>
                 {

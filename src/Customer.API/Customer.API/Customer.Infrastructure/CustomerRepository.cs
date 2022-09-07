@@ -54,6 +54,18 @@ namespace Customer.Repository
         }
 
         /// <summary>
+        /// Update a customer document in the database
+        /// </summary>
+        /// <param name="customerEntity">Customer entity to update</param>
+        /// <returns>Updated customer entity</returns>
+        public async Task<CustomerEntity> UpdateCustomerAsync(CustomerEntity customerEntity)
+        {
+            ItemResponse<CustomerEntity> response = await _client.ReplaceDocumentAsync(customerEntity, ResolvePartitionKey(customerEntity.Id));
+
+            return response.Resource;
+        }
+
+        /// <summary>
         /// Check if customer email is unique in the system before creation
         /// </summary>
         /// <param name="email">Email to check uniqueness of</param>

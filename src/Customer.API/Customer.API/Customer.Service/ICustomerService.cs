@@ -28,6 +28,12 @@ namespace Customer.Service
         /// <returns>Customer response</returns>
         Task<CustomerResponse> CreateCustomerFromRequestAsync(HttpRequest request);
         /// <summary>
+        /// Update customer from http request
+        /// </summary>
+        /// <param name="request">Http request to update customer from</param>
+        /// <returns>Customer response</returns>
+        Task<CustomerResponse> UpdateCustomerFromRequestAsync(HttpRequest request);
+        /// <summary>
         /// Delete the customer using their Id
         /// </summary>
         /// <param name="id">Id of the customer to delete</param>
