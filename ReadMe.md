@@ -14,6 +14,28 @@ Next, click the Plus button and give it a name in the bottom of the screen and f
 
 Here is a link to assist with this process visually: https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio
 
+# local.settings.json
+## Customer.API local.settings.json
+The structure and values of the json file are as follows:
+```JSON
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  },
+  "Database": {
+    "ServiceEndpoint": "YOUR_SERVICE_ENDPOINT",
+    "AuthKey": "YOUR_AUTH_KEY",
+    "DatabaseName": "CustomerDb",
+    "Customer": {
+      "ContainerName": "Customer",
+      "PartitionKey": "/id"
+    }
+  }
+}
+```
+
 # Coming soon
 local.settings.json content
 

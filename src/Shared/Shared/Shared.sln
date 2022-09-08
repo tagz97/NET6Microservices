@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceCollectionExtensions
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validation", "Validation\Validation.csproj", "{39B532A4-8CF2-45EE-8D27-23DF28E43927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceCollectionExtensions.Test", "ServiceCollectionExtensions.Test\ServiceCollectionExtensions.Test.csproj", "{0965F5D3-A87D-444C-B69A-0543EA5834D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceCollectionExtensions.Test", "ServiceCollectionExtensions.Test\ServiceCollectionExtensions.Test.csproj", "{0965F5D3-A87D-444C-B69A-0543EA5834D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosPersistance.Client", "CosmosPersistance.Client\CosmosPersistance.Client.csproj", "{AEE3DAF0-B662-44D6-B105-AE3EC66A480E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0965F5D3-A87D-444C-B69A-0543EA5834D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0965F5D3-A87D-444C-B69A-0543EA5834D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0965F5D3-A87D-444C-B69A-0543EA5834D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE3DAF0-B662-44D6-B105-AE3EC66A480E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE3DAF0-B662-44D6-B105-AE3EC66A480E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE3DAF0-B662-44D6-B105-AE3EC66A480E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE3DAF0-B662-44D6-B105-AE3EC66A480E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
