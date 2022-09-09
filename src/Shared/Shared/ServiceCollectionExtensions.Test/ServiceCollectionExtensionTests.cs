@@ -11,7 +11,7 @@ namespace ServiceCollectionExtensions.Test
             _services = new();
 
             // Act
-            _services.AddService<IServiceCollection, ServiceCollection>(ServiceType.SCOPED);
+            _services.AddService<IServiceCollection, ServiceCollection>(ServiceType.SINGLETON);
             var result = _services.Any(x => x.ServiceType == typeof(IServiceCollection));
 
             // Assert
