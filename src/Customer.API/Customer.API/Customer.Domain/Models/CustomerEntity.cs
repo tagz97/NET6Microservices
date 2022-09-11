@@ -23,9 +23,9 @@ namespace Customer.Domain.Models
         }
 
         /// <summary>
-        /// Overloaded CTOR to allow creation of customer from request
+        /// Overloaded CTOR to allow creation of customer from request <see cref="CreateCustomerRequest"/>
         /// </summary>
-        /// <param name="request">CreateCustomerRequest object</param>
+        /// <param name="request">CreateCustomerRequest object <see cref="CreateCustomerRequest"/></param>
         public CustomerEntity(CreateCustomerRequest request)
         {
             Email = request.Email;
@@ -37,9 +37,9 @@ namespace Customer.Domain.Models
         }
 
         /// <summary>
-        /// Overloaded CTOR to allow updating customer from request
+        /// Overloaded CTOR to allow updating customer from request <see cref="UpdateCustomerRequest"/>
         /// </summary>
-        /// <param name="request">UpdateCustomerRequest object</param>
+        /// <param name="request">UpdateCustomerRequest object <see cref="UpdateCustomerRequest"/></param>
         public CustomerEntity(UpdateCustomerRequest request)
         {
             Email = request.Email ?? Email;

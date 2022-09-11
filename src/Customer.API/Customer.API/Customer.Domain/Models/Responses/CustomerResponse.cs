@@ -3,7 +3,7 @@
 namespace Customer.Domain.Models.Responses
 {
     /// <summary>
-    /// Customer response using Framework BaseResponse with type of CustomerEntity for response data
+    /// Customer response using Framework BaseResponse with type of CustomerEntity for response data. <see cref="BaseResponse{T}"/>
     /// </summary>
     public class CustomerResponse : BaseResponse<CustomerEntity>
     {

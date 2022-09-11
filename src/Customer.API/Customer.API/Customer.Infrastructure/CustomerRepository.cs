@@ -39,7 +39,7 @@ namespace Customer.Repository
         /// Add a new customer to the database
         /// </summary>
         /// <param name="customerEntity">Customer entity to persist</param>
-        /// <returns>Persisted customer entity</returns>
+        /// <returns>Persisted customer entity <see cref="CustomerEntity"/></returns>
         /// <exception cref="EntityAlreadyExistsException">Duplicate entity</exception>
         public async Task<CustomerEntity> AddCustomerAsync(CustomerEntity customerEntity)
         {
@@ -57,7 +57,7 @@ namespace Customer.Repository
         /// Update a customer document in the database
         /// </summary>
         /// <param name="customerEntity">Customer entity to update</param>
-        /// <returns>Updated customer entity</returns>
+        /// <returns>Updated customer entity <see cref="CustomerEntity"/></returns>
         public async Task<CustomerEntity> UpdateCustomerAsync(CustomerEntity customerEntity)
         {
             ItemResponse<CustomerEntity> response = await _client.ReplaceDocumentAsync(customerEntity, ResolvePartitionKey(customerEntity.Id));
@@ -81,7 +81,7 @@ namespace Customer.Repository
         /// <summary>
         /// Get all customers in the database
         /// </summary>
-        /// <returns>A list of customers</returns>
+        /// <returns>A list of customers (<see cref="CustomerEntity"/>)</returns>
         public async Task<IEnumerable<CustomerEntity>> GetAllCustomersAsync()
         {
             return await _client.ReadAllItemsAsIQueryable<CustomerEntity>().CosmosToListAsync();
@@ -91,7 +91,7 @@ namespace Customer.Repository
         /// Get customer by their Id
         /// </summary>
         /// <param name="id">Id of the customer to get</param>
-        /// <returns>Customer</returns>
+        /// <returns>Customer entity <see cref="CustomerEntity"/></returns>
         public async Task<CustomerEntity> GetCustomerByIdAsync(string id)
         {
             return await _client.ReadAllItemsAsIQueryable<CustomerEntity>().Where(x => x.Id == id).CosmosFirstOrDefaultAsync();
@@ -101,7 +101,7 @@ namespace Customer.Repository
         /// Get customers by email address
         /// </summary>
         /// <param name="email">Email address to search customer for</param>
-        /// <returns>Customer</returns>
+        /// <returns>Customer entity <see cref="CustomerEntity"/></returns>
         public async Task<CustomerEntity> GetCustomerByEmailAsync(string email)
         {
             return await _client.ReadAllItemsAsIQueryable<CustomerEntity>().Where(x => x.Email.ToLower() == email.ToLower()).CosmosFirstOrDefaultAsync();

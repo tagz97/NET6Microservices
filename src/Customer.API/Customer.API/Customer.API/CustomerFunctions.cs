@@ -79,10 +79,10 @@ namespace Customer.API
         }
 
         /// <summary>
-        /// Build a new ObjectResult with value from CustomerResponse and define status code to return
+        /// Build a new ObjectResult with value from CustomerResponse and define status code to return <see cref="CustomerResponse"/>
         /// </summary>
         /// <param name="resp">CustomerResponse to define status code from and define ObjectResult value</param>
-        /// <returns>New ObjectResult with value and relevant status code</returns>
+        /// <returns>New <see cref="ObjectResult"/> with value and relevant status code.</returns>
         private static IActionResult BuildObjectResult(CustomerResponse resp)
         {
             return new ObjectResult(resp)

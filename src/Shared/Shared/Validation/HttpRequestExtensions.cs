@@ -6,14 +6,32 @@ using System.Text.Json.Serialization;
 
 namespace Validation
 {
+    /// <summary>
+    /// Http request extensions for getting the body of an http request and applying validation
+    /// </summary>
     public static class HttpRequestExtensions
     {
+        /// <summary>
+        /// Get the body of the http request and validate it
+        /// </summary>
+        /// <typeparam name="T">Type of entity to deserialize to</typeparam>
+        /// <typeparam name="V">Validator to be applied</typeparam>
+        /// <param name="request">The http request</param>
+        /// <returns>Validation result <see cref="ValidationResult{T}"/></returns>
         public static async Task<ValidationResult<T>> GetBody<T, V>(this HttpRequest request)
             where V : Validator<T>, new()
         {
             return await request.GetBody<T, V>(null);
         }
 
+        /// <summary>
+        /// Get the body of the http request and validate it
+        /// </summary>
+        /// <typeparam name="T">Type of entity to deserialize to</typeparam>
+        /// <typeparam name="V">Validator to be applied</typeparam>
+        /// <param name="request">The http request</param>
+        /// <param name="parameter"></param>
+        /// <returns>Validation result <see cref="ValidationResult{T}"/></returns>
         public static async Task<ValidationResult<T>> GetBody<T, V>(this HttpRequest request, object parameter)
             where V : Validator<T>, new()
         {
@@ -65,6 +83,12 @@ namespace Validation
             }
         }
 
+        /// <summary>
+        /// Get the body of the http request as a deserialized object
+        /// </summary>
+        /// <typeparam name="T">Object to deserialize to</typeparam>
+        /// <param name="request">The http request</param>
+        /// <returns>Deseralized object with type T</returns>
         public static async Task<T> GetBody<T>(this HttpRequest request)
         {
             var requestBody = await request.ReadAsStringAsync();

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Customer.Domain.Models.Enums
 {
+    /// <summary>
+    /// Enum defining the customer state
+    /// </summary>
     public enum CustomerState
     {
         ACTIVE = 0,

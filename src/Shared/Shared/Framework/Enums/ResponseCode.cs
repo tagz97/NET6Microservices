@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Framework.Enums
+﻿namespace Framework.Enums
 {
     /// <summary>
     /// Response code enum for different responses

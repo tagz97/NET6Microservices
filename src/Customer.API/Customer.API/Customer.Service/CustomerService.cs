@@ -32,7 +32,7 @@ namespace Customer.Service
         /// Create customer from Http request
         /// </summary>
         /// <param name="request">Http request to create the customer from</param>
-        /// <returns>Customer response</returns>
+        /// <returns>Customer response <see cref="CustomerResponse"/></returns>
         public async Task<CustomerResponse> CreateCustomerFromRequestAsync(HttpRequest request)
         {
             CustomerResponse response = new();
@@ -62,6 +62,11 @@ namespace Customer.Service
             return response;
         }
 
+        /// <summary>
+        /// Update customer from http request
+        /// </summary>
+        /// <param name="request">Http request to update customer from</param>
+        /// <returns>Customer response <see cref="CustomerResponse"/></returns>
         public async Task<CustomerResponse> UpdateCustomerFromRequestAsync(HttpRequest request)
         {
             CustomerResponse response = new();
@@ -106,6 +111,11 @@ namespace Customer.Service
             return response;
         }
 
+        /// <summary>
+        /// Delete the customer using their Id
+        /// </summary>
+        /// <param name="id">Id of the customer to delete</param>
+        /// <returns>Customer response <see cref="CustomerResponse"/></returns>
         public async Task<CustomerResponse> DeleteCustomerAsync(string id)
         {
             CustomerResponse response = new();
@@ -135,7 +145,7 @@ namespace Customer.Service
         /// Get customer by their Id
         /// </summary>
         /// <param name="id">Id of the customer to get</param>
-        /// <returns>Customer response</returns>
+        /// <returns>Customer response <see cref="CustomerResponse"/></returns>
         public async Task<CustomerResponse> GetCustomerByIdAsync(string id)
         {
             CustomerResponse response = new();
@@ -153,6 +163,11 @@ namespace Customer.Service
             return response;
         }
 
+        /// <summary>
+        /// Get customer by their Id
+        /// </summary>
+        /// <param name="id">The Id of the customer</param>
+        /// <returns>Customer entity <see cref="CustomerEntity"/></returns>
         private async Task<CustomerEntity> GetCustomerByCustomerIdAsync(string id)
         {
             CustomerEntity customer;
