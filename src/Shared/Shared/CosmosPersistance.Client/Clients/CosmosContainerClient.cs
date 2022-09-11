@@ -38,13 +38,13 @@ namespace CosmosPersistance.Client.Clients
         /// <inheritdoc />
         public IQueryable<T> ReadAllItemsAsIQueryable<T>()
         {
-            return _container.GetItemLinqQueryable<T>(true);
+            return _container.GetItemLinqQueryable<T>(allowSynchronousQueryExecution: true);
         }
 
         /// <inheritdoc />
         public async Task<IEnumerable<T>> ReadAllItemsAsync<T>()
         {
-            return await _container.GetItemLinqQueryable<T>(true).ToListAsync();
+            return await _container.GetItemLinqQueryable<T>(allowSynchronousQueryExecution: true).ToListAsync();
         }
 
         /// <inheritdoc />
@@ -54,14 +54,21 @@ namespace CosmosPersistance.Client.Clients
         }
 
         /// <inheritdoc />
-        public async Task<ItemResponse<T>> ReplaceDocumentAsync<T>(T document, PartitionKey? partitionKey)
+        public async Task<ItemResponse<T>> ReplaceDocumentAsync<T>(T document, string id, PartitionKey? partitionKey)
         {
-            return await _container.UpsertItemAsync<T>(document, partitionKey);
+            return await _container.ReplaceItemAsync(document, id, partitionKey);
+        }
+
+        /// <inheritdoc />
+        public async Task<ItemResponse<T>> PutDocumentAsync<T>(T document, PartitionKey? partitionKey)
+        {
+            return await _container.UpsertItemAsync(document, partitionKey);
         }
 
         /// <inheritdoc />
         public async Task<ItemResponse<T>> UpdateDocumentAsync<T>(T document, PartitionKey? partitionKey)
         {
+            // replace to use patch operations
             return await _container.UpsertItemAsync<T>(document, partitionKey);
         }
     }

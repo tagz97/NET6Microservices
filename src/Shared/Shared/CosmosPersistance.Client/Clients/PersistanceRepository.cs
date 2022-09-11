@@ -1,4 +1,5 @@
 ﻿using CosmosPersistance.Client.Extensions.Exceptions;
+using CosmosPersistance.Client.Extensions.General;
 using CosmosPersistance.Client.Interfaces;
 using CosmosPersistance.Client.Models;
 using Microsoft.Azure.Cosmos;
@@ -29,7 +30,7 @@ namespace CosmosPersistance.Client.Clients
             entity.Id = GenerateId(entity);
             entity.DocumentCreatedUnix = GetCurrentUnixTime();
             ItemResponse<T> response = await cosmosPersistanceClient.CreateDocumentAsync<T>(entity, ResolvePartitionKey(entity.Id));
-            if (response.StatusCode == HttpStatusCode.Conflict)
+            if (!response.IsSuccessful())
             {
                 throw new EntityAlreadyExistsException($"Entity with id {entity.Id} not found", entity.Id);
             }
@@ -42,9 +43,9 @@ namespace CosmosPersistance.Client.Clients
         {
             var cosmosPersistanceClient = _cosmosPersistanceClientFactory.GetPersistanceClient(CollectionName);
             ItemResponse<T> response = await cosmosPersistanceClient.DeleteDocumentAsync<T>(entity.Id, ResolvePartitionKey(entity.Id).Value);
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            if (response.Resource != null)
             {
-                throw new EntityNotFoundException();
+                throw new EntityDeleteException($"Entity with id {entity.Id} failed to delete", entity.Id);
             }
         }
 
@@ -74,10 +75,10 @@ namespace CosmosPersistance.Client.Clients
             var cosmosPersistanceClient = _cosmosPersistanceClientFactory.GetPersistanceClient(CollectionName);
             entity.DocumentCreatedUnix = GetCurrentUnixTime();
             entity.DocumentModifiedUnix = GetCurrentUnixTime();
-            ItemResponse<T> response = await cosmosPersistanceClient.ReplaceDocumentAsync<T>(entity, ResolvePartitionKey(entity.Id));
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            ItemResponse<T> response = await cosmosPersistanceClient.PutDocumentAsync<T>(entity, ResolvePartitionKey(entity.Id));
+            if (response.StatusCode != HttpStatusCode.OK || response.StatusCode != HttpStatusCode.Created)
             {
-                throw new EntityNotFoundException($"Entity with id {entity.Id} not found", entity.Id);
+                throw new EntityPutException<T>("Entity failed to be put", entity);
             }
 
             return response.Resource;
@@ -88,7 +89,7 @@ namespace CosmosPersistance.Client.Clients
         {
             var cosmosPersistanceClient = _cosmosPersistanceClientFactory.GetPersistanceClient(CollectionName);
             entity.DocumentModifiedUnix = GetCurrentUnixTime();
-            ItemResponse<T> response = await cosmosPersistanceClient.ReplaceDocumentAsync<T>(entity, ResolvePartitionKey(entity.Id));
+            ItemResponse<T> response = await cosmosPersistanceClient.UpdateDocumentAsync<T>(entity, ResolvePartitionKey(entity.Id));
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new EntityNotFoundException($"Entity with id {entity.Id} not found", entity.Id);
