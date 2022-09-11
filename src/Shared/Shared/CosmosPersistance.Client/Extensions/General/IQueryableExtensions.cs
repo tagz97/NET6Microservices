@@ -29,6 +29,7 @@ namespace CosmosPersistance.Client.Extensions.General
                 {
                     if (!EqualityComparer<T>.Default.Equals(item, default))
                     {
+                        iterator.Dispose();
                         return item;
                     }
                 }
