@@ -14,7 +14,18 @@ namespace CosmosPersistance.Client.Clients
         /// <inheritdoc />
         public abstract string CollectionName { get; }
         /// <inheritdoc />
-        public virtual string GenerateId(T entity) => Guid.NewGuid().ToString();
+        public virtual async Task<string> GenerateId(T entity) {
+            string id = Guid.NewGuid().ToString();
+            try
+            {
+                var resp = await GetByIdAsync(id);
+                return await GenerateId(entity);
+            }
+            catch(EntityNotFoundException ex)
+            {
+                return ex.Id;
+            }
+        }
         /// <inheritdoc />
         public virtual PartitionKey? ResolvePartitionKey(string entityId) => null;
 
@@ -27,7 +38,7 @@ namespace CosmosPersistance.Client.Clients
         public async Task<T> AddAsync(T entity)
         {
             var cosmosPersistanceClient = _cosmosPersistanceClientFactory.GetPersistanceClient(CollectionName);
-            entity.Id = GenerateId(entity);
+            entity.Id = await GenerateId(entity);
             entity.DocumentCreatedUnix = GetCurrentUnixTime();
             ItemResponse<T> response = await cosmosPersistanceClient.CreateDocumentAsync<T>(entity, ResolvePartitionKey(entity.Id));
             if (!response.IsSuccessful())

@@ -1,10 +1,5 @@
 ﻿using CosmosPersistance.Client.Models;
 using Microsoft.Azure.Cosmos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CosmosPersistance.Client.Interfaces
 {
@@ -19,11 +14,11 @@ namespace CosmosPersistance.Client.Interfaces
         /// </summary>
         string CollectionName { get; }
         /// <summary>
-        /// Generate a Guid
+        /// Generate a unique GUID for the entity
         /// </summary>
         /// <param name="entity">The entity to generate the Guid for</param>
         /// <returns>Guid as a string</returns>
-        string GenerateId(T entity);
+        Task<string> GenerateId(T entity);
 
         /// <summary>
         /// Resolve partition key
